@@ -55,11 +55,12 @@ module "compute" {
   instance_count              = "${var.instance_count}"
   key_name                    = "${var.ssh_key_name}"
   iam_instance_profile        = "${aws_iam_instance_profile.bastion.name}"
+  instance_size               = "t2.medium"
+  instance_config_data        = "${data.ignition_config.bastion.*.rendered}"
   loc_code                    = "${var.loc_code}"
   name                        = "${var.name}"
   subnet_ids                  = "${var.subnet_ids}"
-  instance_size               = "t2.medium"
-  instance_config_data        = "${data.ignition_config.bastion.*.rendered}"
+  tags                        = "${var.tags}"
   vpc_security_group_ids      = ["${aws_security_group.bastion.id}"]
 }
 

@@ -154,6 +154,7 @@ module "compute" {
   loc_code               = "${var.loc_code}"
   name                   = "${var.kube_cluster_name}-${var.kube_pool_name}"
   subnet_ids             = "${var.subnet_ids}"
+  tags                   = "${merge(var.tags, map("kubernetes.io/cluster/${var.loc_code}-${var.kube_cluster_name}", "owned"))}"
   vpc_security_group_ids = ["${aws_security_group.kubernetes_ctl.id}"]
 }
 

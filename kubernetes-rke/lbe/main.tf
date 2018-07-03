@@ -127,13 +127,14 @@ module "compute" {
   instance_count         = "${var.instance_count}"
   key_name               = "${var.ssh_key_name}"
   iam_instance_profile   = "${aws_iam_instance_profile.kubernetes_lbe.name}"
+  instance_count         = "${var.instance_count}"
+  instance_size          = "${var.instance_size}"
+  instance_config_data   = "${data.ignition_config.kubernetes_lbe.*.rendered}"
   loc_code               = "${var.loc_code}"
   name                   = "${var.kube_cluster_name}-${var.kube_pool_name}"
   num_availability_zones = "${var.num_availability_zones}"
   subnet_ids             = "${var.subnet_ids}"
-  instance_count         = "${var.instance_count}"
-  instance_size          = "${var.instance_size}"
-  instance_config_data   = "${data.ignition_config.kubernetes_lbe.*.rendered}"
+  tags                   = "${merge(var.tags, map("kubernetes.io/cluster/${var.loc_code}-${var.kube_cluster_name}", "owned"))}"
   vpc_security_group_ids = ["${aws_security_group.kubernetes_lbe.id}"]
 }
 
