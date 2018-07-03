@@ -82,7 +82,7 @@ resource "aws_security_group" "kubernetes_gpc" {
   ingress {
     from_port   = 8472
     to_port     = 8472
-    protocol    = "tcp"
+    protocol    = "udp"
     cidr_blocks = ["${var.ingress_cidrs}"]
   }
 
