@@ -10,3 +10,11 @@ data:
       groups:
         - system:bootstrappers
         - system:nodes
+    - rolearn: ${standard_dev_role_arn}
+      username: standard-developer
+      groups:
+        - system:masters
+    - rolearn: ${standard_ops_role_arn}
+      username: standard-operations
+      groups:
+        - system:masters
