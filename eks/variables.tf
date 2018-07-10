@@ -32,6 +32,12 @@ variable "subnets" {
   type        = "list"
 }
 
+variable "worker_subnets" {
+  description = "A list of subnets to place th EKS workers within. If empty, then the subnets variable will be used instead."
+  type        = "list"
+  default     = []
+}
+
 variable "tags" {
   description = "A map of tags to add to all resources."
   default     = {}
