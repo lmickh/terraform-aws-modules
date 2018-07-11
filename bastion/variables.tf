@@ -1,3 +1,10 @@
+variable "ami" {
+  default = {
+    "us-east-1" = "ami-f6ecac89"
+    "us-east-2" = "ami-5bf4ca3e"
+  }
+}
+
 variable "dns_cloudflare_record_proxied" {
   default = false
 }
@@ -33,6 +40,10 @@ variable "ingress_cidrs" {
   type        = "list"
 }
 
+variable "instance_count" {
+  default = 1
+}
+
 variable "loc_code" {
   description = "Location code used to label the resources"
   type        = "string"
@@ -65,10 +76,6 @@ variable "tags" {
 
   description = "A map of tag pairs to be applied to resources in the module"
   type        = "map"
-}
-
-variable "vm_count" {
-  default = 1
 }
 
 variable "vpc_id" {
