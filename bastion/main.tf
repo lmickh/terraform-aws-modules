@@ -49,8 +49,7 @@ resource "aws_security_group" "bastion" {
 }
 
 module "compute" {
-  #source = "git@github.com:lmickh/terraform-aws-modules.git//compute?ref=v1.0.0"
-  source = "../compute"
+  source = "git@github.com:lmickh/terraform-aws-modules.git//compute?ref=v1.1.0"
 
   ami                         = "${var.ami[data.aws_region.current.name]}"
   associate_public_ip_address = true
