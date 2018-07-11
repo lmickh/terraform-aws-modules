@@ -22,6 +22,16 @@ variable "dns_record_ttl" {
   default = "120"
 }
 
+variable "dns_route53_records_enabled" {
+  default     = false
+  description = "Enable the creation of A records for the VMs"
+}
+
+variable "dns_route53_zone_id" {
+  default     = ""
+  description = "The id of the Route53 zone the records should be created in"
+}
+
 variable "dns_subdomain" {
   default     = ""
   description = "Subdomain to be appended before the dns_zone when creating records i.e .dev"

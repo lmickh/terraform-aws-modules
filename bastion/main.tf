@@ -66,6 +66,16 @@ module "compute" {
   vpc_security_group_ids      = ["${aws_security_group.bastion.id}"]
 }
 
+resource "aws_route53_record" "bastion_host" {
+  count   = "${var.dns_route53_records_enabled ? var.instance_count : 0}"
+  zone_id = "${var.dns_route53_zone_id}"
+  name    = "${var.loc_code}-${var.name}-${count.index}"
+  type    = "A"
+  ttl     = "360"
+
+  records = ["${module.compute.public_ips[count.index]}"]
+}
+
 # resource "cloudflare_record" "bastion_host" {
 #   count   = "${var.dns_cloudflare_records_enabled ? var.instance_count : 0}"
 #   domain  = "${var.dns_zone}"
