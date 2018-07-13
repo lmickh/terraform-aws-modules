@@ -63,7 +63,7 @@ variable "name" {
 
 variable "num_availability_zones" {
   description = "Number of AZs to spread the VMs across"
-  default     = 2
+  default     = 3
 }
 
 variable "placement_group_strategy" {
