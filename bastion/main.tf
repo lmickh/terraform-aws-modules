@@ -1,3 +1,5 @@
+data "aws_region" "current" {}
+
 resource "aws_iam_instance_profile" "bastion" {
   name = "${var.loc_code}-iamip-${var.name}"
   role = "${aws_iam_role.bastion.name}"
@@ -47,9 +49,9 @@ resource "aws_security_group" "bastion" {
 }
 
 module "compute" {
-  source = "git@github.com:lmickh/terraform-aws-modules.git//compute?ref=v1.0.0"
+  source = "git@github.com:lmickh/terraform-aws-modules.git//compute?ref=v1.1.0"
 
-  ami                         = "ami-5d6e5e38"
+  ami                         = "${var.ami[data.aws_region.current.name]}"
   associate_public_ip_address = true
   ebs_optimized               = false
   instance_count              = "${var.instance_count}"
@@ -64,12 +66,23 @@ module "compute" {
   vpc_security_group_ids      = ["${aws_security_group.bastion.id}"]
 }
 
-resource "cloudflare_record" "bastion_host" {
-  count   = "${var.dns_cloudflare_records_enabled ? var.instance_count : 0}"
-  domain  = "${var.dns_zone}"
-  name    = "${var.loc_code}-${var.name}-${count.index}${var.dns_subdomain}"
-  value   = "${element(module.compute.public_ips, count.index)}"
-  type    = "${var.dns_cloudflare_record_type}"
-  ttl     = "${var.dns_record_ttl}"
-  proxied = "${var.dns_cloudflare_record_proxied}"
+resource "aws_route53_record" "bastion_host" {
+  count   = "${var.dns_route53_records_enabled ? var.instance_count : 0}"
+  zone_id = "${var.dns_route53_zone_id}"
+  name    = "${var.loc_code}-${var.name}-${count.index}"
+  type    = "A"
+  ttl     = "360"
+
+  records = ["${module.compute.public_ips[count.index]}"]
 }
+
+# resource "cloudflare_record" "bastion_host" {
+#   count   = "${var.dns_cloudflare_records_enabled ? var.instance_count : 0}"
+#   domain  = "${var.dns_zone}"
+#   name    = "${var.loc_code}-${var.name}-${count.index}${var.dns_subdomain}"
+#   value   = "${element(module.compute.public_ips, count.index)}"
+#   type    = "${var.dns_cloudflare_record_type}"
+#   ttl     = "${var.dns_record_ttl}"
+#   proxied = "${var.dns_cloudflare_record_proxied}"
+# }
+

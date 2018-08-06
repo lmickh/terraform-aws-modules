@@ -3,7 +3,7 @@ output "loc_code" {
 }
 
 output "ids" {
-  value = "${aws_instance.main.*.id}"
+  value = "${aws_instance.this.*.id}"
 }
 
 output "volume_ids" {
@@ -15,13 +15,13 @@ output "device_name" {
 }
 
 output "public_ips" {
-  value = "${aws_instance.main.*.public_ip}"
+  value = "${aws_instance.this.*.public_ip}"
 }
 
 output "private_ips" {
-  value = "${aws_instance.main.*.private_ip}"
+  value = "${aws_instance.this.*.private_ip}"
 }
 
 output "key_name" {
-  value = "${aws_instance.main.*.key_name}"
+  value = "${aws_instance.this.*.key_name}"
 }

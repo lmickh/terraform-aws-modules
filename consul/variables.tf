@@ -51,7 +51,15 @@ variable "ingress_cidrs" {
 }
 
 variable "instance_count" {
-  default = 1
+  default     = 3
+  description = "Number of Consul server instances to provision"
+  type        = "string"
+}
+
+variable "instance_size" {
+  default     = "t2.large"
+  description = "EC2 instance size to use"
+  type        = "string"
 }
 
 variable "loc_code" {
@@ -60,8 +68,14 @@ variable "loc_code" {
 }
 
 variable "name" {
-  default = "bastion"
+  default = "consul"
   type    = "string"
+}
+
+variable "storage_data_disk_size" {
+  description = "Size of the disk attached to store the Consul data"
+  default     = "50"
+  type        = "string"
 }
 
 variable "subnet_ids" {
